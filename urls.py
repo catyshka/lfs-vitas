@@ -2,6 +2,7 @@
 from django.conf import settings
 from django.conf.urls.defaults import *
 from django.contrib import admin
+import views
 admin.autodiscover()
 
 import os
@@ -23,4 +24,8 @@ urlpatterns += patterns("",
 urlpatterns += patterns("",
     (r'^admin/', include(admin.site.urls)),
     (r'^media/(?P<path>.*)$', 'django.views.static.serve', {'document_root': os.path.join(DIRNAME, "media"), 'show_indexes': True }),
+)
+
+urlpatterns += patterns('',
+    (r'^delivery$', views.delivery_page),
 )
