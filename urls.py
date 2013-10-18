@@ -28,4 +28,5 @@ urlpatterns += patterns("",
 
 urlpatterns += patterns('',
     (r'^delivery$', views.delivery_page),
+    (r'^order', views.order_page),
 )
