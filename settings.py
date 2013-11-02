@@ -154,6 +154,7 @@ INSTALLED_APPS = (
     'paypal.standard.pdt',
     'gunicorn',
     'south',
+    'robots',
 )
 
 FORCE_SCRIPT_NAME=""
@@ -297,6 +298,7 @@ if DEBUG:
     
 LFS_THUMBNAIL_SIZES= ((60, 60), (100, 100), (200, 200), (300, 300), (400, 400))
 LANGUAGE_CODE = 'ru_RU.UTF-8'
+#POSTAL_ADDRESS_L10N = False
 
 try:
     from local_settings import *
