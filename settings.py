@@ -153,7 +153,6 @@ INSTALLED_APPS = (
     'paypal.standard.ipn',
     'paypal.standard.pdt',
     'gunicorn',
-    'robots',
 )
 
 FORCE_SCRIPT_NAME=""
