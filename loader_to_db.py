@@ -1,11 +1,13 @@
 from lfs.catalog.models import Product, Category, Manufacturer
 from transliterate import translit, get_available_language_codes
+import time
 
-def load_data():
-    for prod in Product.objects.all():
-       prod.delete()
-    for cat in Category.objects.all():
-       cat.delete()
+def load_data(clean=False):
+    if clean:
+        for prod in Product.objects.all():
+           prod.delete()
+        for cat in Category.objects.all():
+           cat.delete()
     data = open('data1.txt', "r")
     categoryPos = 10
     subcategoryPos = 10
@@ -62,3 +64,4 @@ def load_data():
         product.manufacturer = manufacturer
         product.categories = [categoryObj, subcategoryObj, serialObj]
         product.save()
+        time.sleep(5)
