@@ -30,5 +30,5 @@ urlpatterns += patterns('',
    # (r'^delivery$', views.delivery_page),
 )
 urlpatterns += patterns('',
-    (r'^pages/', include('django.contrib.flatpages.urls')),
+    (r'^info/', include('django.contrib.flatpages.urls')),
 )
