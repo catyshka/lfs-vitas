@@ -58,7 +58,7 @@ def load_data():
         product.name = name
         product.active = 1
         product.short_description = desc
-        product.price = price
+        product.price = 0.95*int(price)
         product.manufacturer = manufacturer
         product.categories = [categoryObj, subcategoryObj, serialObj]
         product.save()
