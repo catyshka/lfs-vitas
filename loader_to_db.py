@@ -2,8 +2,8 @@ from lfs.catalog.models import Product, Category, Manufacturer
 from transliterate import translit, get_available_language_codes
 
 def load_data():
-    #for prod in Product.objects.all():
-    #   prod.delete()
+    for prod in Product.objects.all():
+       prod.delete()
     for cat in Category.objects.all():
        cat.delete()
     data = open('data1.txt', "r")
