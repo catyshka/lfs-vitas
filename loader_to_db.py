@@ -69,7 +69,7 @@ def load_data(clean=False, addWait=False):
         product.categories = [categoryObj, subcategoryObj, serialObj]
         product.save()
         if addWait:
-            time.sleep(5)
+            time.sleep(addWait)
         
         dirPath = 'data_new/' + category + '/' + subcategory + '/' + brand + '/' + serial + '/' + brand.lower() + '_' + product.name.lower().replace(' ', '_')
         print 'dirPath', dirPath
