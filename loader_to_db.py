@@ -1,8 +1,11 @@
 from lfs.catalog.models import Product, Category, Manufacturer
+from lfs.catalog.models import Image
 from transliterate import translit, get_available_language_codes
 import time
+from os import walk
+from django.core.files import File
 
-def load_data(clean=False):
+def load_data(clean=False, addWait=False):
     if clean:
         for prod in Product.objects.all():
            prod.delete()
@@ -15,6 +18,7 @@ def load_data(clean=False):
     for line in data.readlines():
         line = line.decode('utf8')
         brand, name, desc, price, category, subcategory, brand, serial = line.split('\t')
+        serial = serial.strip()
         #print brand, name, desc, price, category, subcategory, brand, serial
         categorySlug = translit(category, reversed=True).replace(' ', '-').replace('\'', '')
         categoryObj, created = Category.objects.get_or_create(slug=categorySlug)
@@ -64,4 +68,25 @@ def load_data(clean=False):
         product.manufacturer = manufacturer
         product.categories = [categoryObj, subcategoryObj, serialObj]
         product.save()
-        time.sleep(5)
+        if addWait:
+            time.sleep(5)
+        
+        dirPath = 'data_new/' + category + '/' + subcategory + '/' + brand + '/' + serial + '/' + brand.lower() + '_' + product.name.lower().replace(' ', '_')
+        print 'dirPath', dirPath
+        for (_dirPath, dirnames, filenames) in walk(dirPath):
+            print (_dirPath, dirnames, filenames)
+            for fileName in filenames:
+                print 'fileName', fileName
+                file = File(open(dirPath + '/' + fileName, 'r'))
+                image = Image(content=product, title=fileName)
+                try:
+                    image.image.save(fileName, file, save=True)
+                except Exception, e:
+                    print e
+            
+                # Refresh positions
+                for i, image in enumerate(product.images.all()):
+                    image.position = (i + 1) * 10
+                    image.save()
+            break
+        break
