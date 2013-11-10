@@ -70,13 +70,14 @@ def load_data(clean=False, addWait=False):
         product.save()
         if addWait:
             time.sleep(addWait)
-        
         dirPath = 'data_new/' + category + '/' + subcategory + '/' + brand + '/' + serial + '/' + brand.lower() + '_' + product.name.lower().replace(' ', '_')
         print 'dirPath', dirPath
         for (_dirPath, dirnames, filenames) in walk(dirPath):
             print (_dirPath, dirnames, filenames)
             for fileName in filenames:
                 print 'fileName', fileName
+                for img in product.images.all():
+                    img.delete()
                 file = File(open(dirPath + '/' + fileName, 'r'))
                 image = Image(content=product, title=fileName)
                 try:
