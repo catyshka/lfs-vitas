@@ -3,15 +3,16 @@ from lfs.catalog.models import Image
 from transliterate import translit, get_available_language_codes
 import time
 from os import walk
+from os.path import exists
 from django.core.files import File
 
-def load_data(clean=False, addWait=False):
+def load_data(dataFile, imagesDir, clean=False, addWait=False):
     if clean:
         for prod in Product.objects.all():
            prod.delete()
         for cat in Category.objects.all():
            cat.delete()
-    data = open('data1.txt', "r")
+    data = open(dataFile, "r")
     categoryPos = 10
     subcategoryPos = 10
     serialPos = 10
@@ -70,10 +71,40 @@ def load_data(clean=False, addWait=False):
         product.save()
         if addWait:
             time.sleep(addWait)
-        dirPath = 'data_new/' + category + '/' + subcategory + '/' + brand + '/' + serial + '/' + brand.lower() + '_' + product.name.lower().replace(' ', '_')
+        
+        # to some dirs + sign was added
+        #dirPath = imagesDir + '/' + category + '/' + subcategory + '/' + brand + '/' + serial + '/' + brand.lower() + '_' + product.name.lower().replace(' ', '_')
+        dirPath = imagesDir 
+        #category dir
+        if exists(dirPath + '/+' + category):
+            dirPath += '/+' + category
+        else:
+            dirPath += '/' + category
+        #subcategory dir
+        if exists(dirPath + '/+' + subcategory):
+            dirPath += '/+' + subcategory
+        else:
+            dirPath += '/' + subcategory
+        #brand dir
+        if exists(dirPath + '/+' + brand):
+            dirPath += '/+' + brand
+        else:
+            dirPath += '/' + brand
+        #serial dir
+        if exists(dirPath + '/+' + serial):
+            dirPath += '/+' + serial
+        else:
+            dirPath += '/' + serial
+        #product dir
+        prodDirRel = brand.lower() + '_' + product.name.lower().replace(' ', '_');
+        if exists(dirPath + '/+' + prodDirRel):
+            dirPath += ('/+' + prodDirRel)
+        else:
+            dirPath += '/' + prodDirRel
         print 'dirPath', dirPath
+        
         for (_dirPath, dirnames, filenames) in walk(dirPath):
-            print (_dirPath, dirnames, filenames)
+            #print (_dirPath, dirnames, filenames)
             for fileName in filenames:
                 print 'fileName', fileName
                 for img in product.images.all():
