@@ -65,7 +65,7 @@ def load_data(dataFile, imagesDir, clean=False, addWait=False):
         product.name = name
         product.active = 1
         product.short_description = desc
-        product.price = 0.95*int(price)
+        product.price = 1.15*int(price)
         product.manufacturer = manufacturer
         product.categories = [categoryObj, subcategoryObj, serialObj]
         product.save()
