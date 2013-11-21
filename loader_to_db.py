@@ -104,7 +104,7 @@ def load_data(dataFile, imagesDir, clean=False, addWait=False):
             dirPath += '/' + prodDirRel
         print 'dirPath', dirPath
         print 'counter', counter
-        counter++
+        counter = counter + 1
         for (_dirPath, dirnames, filenames) in walk(dirPath):
             #print (_dirPath, dirnames, filenames)
             for fileName in filenames:
