@@ -120,6 +120,8 @@ def load_data(dataFile, imagesDir, clean=False, addWait=False):
                 for i, image in enumerate(product.images.all()):
                     image.position = (i + 1) * 10
                     image.save()
+                    if addWait:
+                        time.sleep(addWait)
                 # need only one image
                 break
             #need only files of current dir
