@@ -16,6 +16,7 @@ def load_data(dataFile, imagesDir, clean=False, addWait=False):
     categoryPos = 10
     subcategoryPos = 10
     serialPos = 10
+    counter = 0
     for line in data.readlines():
         line = line.decode('utf8')
         brand, name, desc, price, category, subcategory, brand, serial = line.split('\t')
@@ -102,7 +103,8 @@ def load_data(dataFile, imagesDir, clean=False, addWait=False):
         else:
             dirPath += '/' + prodDirRel
         print 'dirPath', dirPath
-        
+        print 'counter', counter
+        counter++
         for (_dirPath, dirnames, filenames) in walk(dirPath):
             #print (_dirPath, dirnames, filenames)
             for fileName in filenames:
