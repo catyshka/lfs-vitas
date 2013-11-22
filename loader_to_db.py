@@ -19,6 +19,7 @@ def load_data(dataFile, imagesDir, clean=False, addWait=False, startFromLine=0):
     counter = 0
     for line in data.readlines():
         line = line.decode('utf8')
+        print counter, startFromLine
         if counter < startFromLine:
             continue
         brand, name, desc, price, category, subcategory, brand, serial = line.split('\t')
