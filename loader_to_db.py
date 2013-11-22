@@ -6,7 +6,7 @@ from os import walk
 from os.path import exists
 from django.core.files import File
 
-def load_data(dataFile, imagesDir, clean=False, addWait=False):
+def load_data(dataFile, imagesDir, clean=False, addWait=False, startFromLine=0):
     if clean:
         for prod in Product.objects.all():
            prod.delete()
@@ -19,6 +19,8 @@ def load_data(dataFile, imagesDir, clean=False, addWait=False):
     counter = 0
     for line in data.readlines():
         line = line.decode('utf8')
+        if counter < startFromLine:
+            continue
         brand, name, desc, price, category, subcategory, brand, serial = line.split('\t')
         serial = serial.strip()
         #print brand, name, desc, price, category, subcategory, brand, serial
