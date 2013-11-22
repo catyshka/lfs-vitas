@@ -19,7 +19,8 @@ def load_data(dataFile, imagesDir, clean=False, addWait=False, startFromLine=0):
     counter = 0
     for line in data.readlines():
         line = line.decode('utf8')
-        print counter, startFromLine
+        print 'counter', counter
+        counter = counter + 1
         if counter < startFromLine:
             continue
         brand, name, desc, price, category, subcategory, brand, serial = line.split('\t')
@@ -106,8 +107,6 @@ def load_data(dataFile, imagesDir, clean=False, addWait=False, startFromLine=0):
         else:
             dirPath += '/' + prodDirRel
         print 'dirPath', dirPath
-        print 'counter', counter
-        counter = counter + 1
         for (_dirPath, dirnames, filenames) in walk(dirPath):
             #print (_dirPath, dirnames, filenames)
             for fileName in filenames:
