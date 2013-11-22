@@ -6,7 +6,7 @@ from os import walk
 from os.path import exists
 from django.core.files import File
 
-def load_data(dataFile, imagesDir, clean=False, addWait=False, startFromLine=0):
+def load_data(dataFile, imagesDir, clean=False, addWait=False, startFromLine=0, skipImages=False):
     if clean:
         for prod in Product.objects.all():
            prod.delete()
@@ -66,8 +66,12 @@ def load_data(dataFile, imagesDir, clean=False, addWait=False, startFromLine=0):
         manufacturer, created = Manufacturer.objects.get_or_create(name=brand)
         if created:
             manufacturer.save()
-        product, created = Product.objects.get_or_create(slug=name)
-        product.name = name
+        try:
+            productSlug = translit(name.strip(), reversed=True).replace(' ', '-').replace('\'', '').replace('(', '').replace(')', '').replace(',', '_')
+        except:
+            productSlug = name
+        product, created = Product.objects.get_or_create(name=name)
+        product.slug = productSlug
         product.active = 1
         product.short_description = desc
         product.price = 1.15*int(price)
@@ -76,7 +80,8 @@ def load_data(dataFile, imagesDir, clean=False, addWait=False, startFromLine=0):
         product.save()
         if addWait:
             time.sleep(addWait)
-        
+        if skipImages:
+            continue
         # to some dirs + sign was added
         #dirPath = imagesDir + '/' + category + '/' + subcategory + '/' + brand + '/' + serial + '/' + brand.lower() + '_' + product.name.lower().replace(' ', '_')
         dirPath = imagesDir 
