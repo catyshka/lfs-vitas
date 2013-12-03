@@ -67,7 +67,7 @@ def load_data(dataFile, imagesDir, clean=False, addWait=False, startFromLine=0, 
         if created:
             manufacturer.save()
         try:
-            productSlug = translit(name.strip(), reversed=True).replace(' ', '-').replace('\'', '').replace('(', '').replace(')', '').replace(',', '_')
+            productSlug = translit(name.strip(), reversed=True).replace(' ', '-').replace('\'', '').replace('(', '').replace(')', '').replace(',', '_').replace('+', '_')
         except:
             productSlug = name
         product, created = Product.objects.get_or_create(name=name)
